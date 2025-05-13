@@ -5,9 +5,11 @@
 
 class EUR : public Currency {
 
+    friend std::ostream & operator<<(std::ostream & output , const EUR & out) ;
+
     public :
 
-        EUR() ;
+        EUR(float amount = 0) ;
 
     private :
 

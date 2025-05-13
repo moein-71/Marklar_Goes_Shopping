@@ -10,16 +10,14 @@ class Currency {
 
         Currency(std::string name , char symbol , unsigned int value , float amount = 0) ;
 
-        string Get_name() const ;
+        std::string Get_name() const ;
 
         char Get_symbol() const ;
 
         unsigned int Get_value() const ; 
 
         float Get_amount() const ;
-        float Set_amount(const float & other) ;
-
-        void print() const ;
+        void Set_amount(const float & other) ;
 
     private :
 
