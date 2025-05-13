@@ -11,19 +11,26 @@ class USD : public Currency {
 
     public :
 
-        USD(float amount = 0) ;
+        explicit USD(float amount = 0) ;
+        explicit USD(const EUR & change) ;
+        explicit USD(const IRR & change) ;
 
         const USD & operator=(const EUR & other) ;
-        const USD & operator=(const IRR & other) ;
 
         const USD & operator+=(const USD & other) ;
-        const USD & operator+=(const EUR & other) ;
-        const USD & operator+=(const IRR & other) ;
-
         const USD & operator-=(const USD & other) ;
-        const USD & operator-=(const EUR & other) ;
-        const USD & operator-=(const IRR & other) ;
 
+        USD operator+(const USD & other) ;
+        USD operator-(const USD & other) ;
+        USD operator*(const USD & other) ;
+        USD operator/(const USD & other) ;
+
+        bool operator==(const USD & other) ;
+        bool operator!=(const USD & other) ;
+        bool operator<(const USD & other) ;
+        bool operator>(const USD & other) ;
+
+        
     private :
 
 } ;
