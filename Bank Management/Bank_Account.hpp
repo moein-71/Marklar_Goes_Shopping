@@ -8,13 +8,22 @@ class Bank {
 
     public :
 
-        Bank(std::string Holder_Name , int Acc_Number , USD Daily_Limit , USD balance) ;
+        Bank(std::string Holder_Name , int Acc_Number , USD balance , USD Daily_Limit) ;
 
         void deposit(const USD & amount) ;
 
-        USD withdraw(const USD & amount) ;
+        void withdraw(const USD & amount) ;
 
+        std::string Get_HN() ;
+
+        int Get_AC() ;
+
+        USD Get_DL() ;
+
+        void Set_balance(const USD & other) ;
         USD Get_balance() ;
+
+        void Print() ;
 
     private :
 

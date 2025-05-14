@@ -7,7 +7,7 @@ class Personal_Acc : public Bank {
 
     public :
 
-    Personal_Acc(std::string Holder_Name , int Acc_Number , USD Daily_Limit , USD balance) ;
+    Personal_Acc(std::string Holder_Name , int Acc_Number , USD balance , USD Daily_Limit = USD(1000)) ;
 
     private :
 
