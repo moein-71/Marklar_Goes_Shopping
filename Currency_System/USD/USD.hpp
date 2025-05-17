@@ -15,7 +15,7 @@ class USD : public Currency {
         explicit USD(const EUR & change) ;
         explicit USD(const IRR & change) ;
 
-        USD & operator=(const USD & other) ;
+        const USD & operator=(const USD &other) ;
 
         const USD & operator+=(const USD & other) ;
         const USD & operator-=(const USD & other) ;

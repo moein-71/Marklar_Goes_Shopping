@@ -2,7 +2,11 @@
 
 using namespace std ;
 
-Currency::Currency(string name , char symbol , unsigned int value , float amount) : name(name) , symbol(symbol) , value(value) , amount(amount) {}
+Currency::Currency(string name , char symbol , unsigned int value , float amount) : name(name) , symbol(symbol) , value(value) , amount(amount) {
+    if(amount < 0) {
+        throw invalid_argument("negative money is not logical") ;
+    }
+}
 
 string Currency::Get_name() const {
     return this->name ;

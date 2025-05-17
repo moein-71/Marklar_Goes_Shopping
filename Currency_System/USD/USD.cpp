@@ -21,7 +21,7 @@ ostream & operator<<(ostream & output , const USD & out) {
     return output ;
 }
 
-USD & USD::operator=(const USD & other) {
+const USD & USD::operator=(const USD & other) {
 
     this->Set_amount(other.Get_amount()) ;
     
