@@ -25,15 +25,17 @@ class Item{
         void set_name(std::string);//////set function
         void set_price(int);
         void set_amount(int);
-        void set_unit(std::string);////////set function
+        void set_unit(std::string);
+        void set_file_name(std::string);////////set function
 
-        void Add_Pruduct(const Item& product)const;//this function adds product to file on format(name, price, amount, unit)
-        void Remove_Product(const std::string& name);//this function remove a product in file
+
+        void Add_Pruduct()const;//this function adds product to file on format(name, price, amount, unit)
+        int Remove_Product(int dis);//this function remove a product in file
         void Print()const;//this function outes all product in Item.txt
 
     private:
 
-        std::string name;
+        std::string name; 
 
         int price;
 

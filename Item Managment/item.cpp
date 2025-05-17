@@ -26,13 +26,16 @@ void Item::set_amount(int amount){this -> amount = amount;}
 
 void Item::set_unit(string unit){this -> unit = unit;}
 
+void Item::set_file_name(string file_name){this -> file_name = file_name;}
 
 
 
-void Item::Add_Pruduct(const Item& product)const{
+
+void Item::Add_Pruduct()const{
 
     string add_name, unit, fname = this -> file_name;
     int price, amount;
+
     bool Hozoor = false;
 
     ifstream add(fname , ios::in);
@@ -45,7 +48,12 @@ void Item::Add_Pruduct(const Item& product)const{
 
     while(add >> add_name >> price >> amount >> unit){
 
-        if(product.name == add_name && product.unit == unit){amount += product.amount; Hozoor = true;}
+        if(this -> name == add_name && this -> unit == unit) {
+
+            amount += this -> amount; 
+            price = this -> price; 
+            Hozoor = true;
+        }
 
         temp << name << setw(4) << price << setw(4)
         << amount << setw(4) << unit << '\n';
@@ -53,8 +61,8 @@ void Item::Add_Pruduct(const Item& product)const{
 
     if(!Hozoor){
 
-        temp << product.name << setw(4) << product.price << setw(4)
-        << product.amount << setw(4) << product.unit << '\n';
+        temp << this -> name << setw(4) << this -> price << setw(4)
+        << this -> amount << setw(4) << this -> unit << '\n';
     }
 
     add.close();
@@ -63,18 +71,25 @@ void Item::Add_Pruduct(const Item& product)const{
     remove(fname.c_str());
     rename("temp.txt", fname.c_str());
 
-    Print();
+    // Print();
 }
 
-void Item::Remove_Product(const std::string& name){
+int Item::Remove_Product(int dis){
 
     string remove_name, unit, fname = this -> file_name;
     int price, amount;
+
+    int amount_dis = (this->amount / dis) ;
     
     ifstream rmve(fname, ios::in);
     ofstream temp("temp.txt" , ios::out);
 
     if(!rmve || !temp){
+
+        rmve.close();
+        temp.close();
+        
+        remove("temp.txt");
 
         throw runtime_error("There is a problem. I can't open file.\n");
     }
@@ -86,6 +101,26 @@ void Item::Remove_Product(const std::string& name){
             temp << remove_name << setw(4) << price << setw(4) 
             << amount << setw(4) << unit << '\n';
         }
+        else {
+            if((amount - this->amount) > 0) {
+
+                if(amount - amount_dis < 0) {
+                    amount_dis = amount_dis - amount ;
+                    continue;
+                }
+
+                temp << name << setw(4) << price << setw(4) 
+                << (amount - this->amount) << setw(4) << unit << '\n';
+            }
+            else {
+                rmve.close();
+                temp.close();
+
+                remove("temp.txt") ;
+
+                throw invalid_argument("We don't have enough thing") ;
+            }
+        }
     }
 
     rmve.close();
@@ -94,7 +129,9 @@ void Item::Remove_Product(const std::string& name){
     remove(fname.c_str());
     rename("temp.txt", fname.c_str());
 
-    Print();
+    return amount_dis ;
+
+    // Print();
 }
 
 void Item::Print()const{
