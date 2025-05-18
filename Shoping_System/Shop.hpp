@@ -1,5 +1,5 @@
-#ifndef SHOP_HPP
-#define SHOP_HPP
+#ifndef SHOP_H
+#define SHOP_H
 
 #include "../Currency_System/USD/USD.hpp"
 #include "../Bank Management/Organization/Organization.hpp"
@@ -12,17 +12,16 @@ class Shop : public Organization_Acc {
 
     public :
 
-        Shop(std::string shop = "SHOP" , int AC = 1111 , USD blc = USD(50000)) ;
+        Shop(std::string shop = "SHOP" , int AC = 1111 , USD blc = USD(50000));//Constructor
 
-        void Add_Shop() ;
-
-        void Remove_Shop() ;
+        void Add_Shop();//manage shopping (add_list, get_money) 
+        void Remove_Shop();//remove list and get money from user and add money to the shop
 
     private :
 
-        Bank * Customer1 ;
-        const unsigned int discount = 5 ;
+        Bank * Customer1;
 
+        const unsigned int discount = 5;
 } ;
 
-#endif //SHOP_HPP
+#endif //SHOP_H

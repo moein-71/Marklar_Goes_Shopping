@@ -11,6 +11,9 @@
 
 class Item{
 
+    friend ostream& operator<<(ostream& , Item&);
+    friend istream& operator>>(istream& , Item&);
+
     public:
 
         Item(std::string name, int price, int amount, std::string unit);//Constructor
@@ -30,7 +33,7 @@ class Item{
 
 
         void Add_Pruduct()const;//this function adds product to file on format(name, price, amount, unit)
-        int Remove_Product(int dis);//this function remove a product in file
+        int Remove_Product(int dis , int *item_price);//this function remove a product in file
         void Print()const;//this function outes all product in Item.txt
 
     private:

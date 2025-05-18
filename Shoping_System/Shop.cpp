@@ -1,4 +1,6 @@
 #include "Shop.hpp"
+#include "../Item Managment/item.hpp"
+#include <vector>
 
 using namespace std ;
 
@@ -7,15 +9,18 @@ Shop::Shop(std::string shop = "SHOP" , int AC = 1111 , USD blc = USD(50000)) : O
 }
 
 
-void Shop::Add_Shop() {
+void Shop::Add_Shop(){
 
     int price, amount;
     string choose , fname, name, unit;
     Item  ptr;
 
-    float cost = 0 ;
+    vector<Item> add_item; 
 
-    cout<< "Enter your list : type(fruit , seasoning , snack) , name , price , amount '\n" ;
+    float cost = 0;
+
+    cout<< "Enter your list : type(fruit , seasoning , snack) , name , price , amount \n" 
+    << "if you want to exit \n";
 
     while(1){
 
@@ -46,20 +51,20 @@ void Shop::Add_Shop() {
         ptr.set_unit(unit);
         ptr.set_file_name(fname);
 
-        cost += (price * amount) ;
+        cost += (price * amount);
 
-        if(this->Get_balance() - USD(cost) < USD(0)) {
-            throw invalid_argument("you cant pay more than of your money") ;
+        if(this->Get_balance() - USD(cost) < USD(0)){
+            cerr<< "you can't buy more than of these";
+            break ;
         }
 
         ptr.Add_Pruduct();
-
+        add_item.push_back(ptr) ;
     }
 
-    this->Set_balance(this->Get_balance() - USD(cost)) ;
+    this->Set_balance(this->Get_balance() - USD(cost));
 
-    // add an print vector 
-
+    for(Item &temp : add_item)cout << temp << '\n'; 
 }
 
 void Shop::Remove_Shop() {
@@ -68,9 +73,12 @@ void Shop::Remove_Shop() {
     string choose , fname, name, unit;
     Item  ptr;
 
-    float cost = 0 ;
+    vector<Item> remove_item; 
 
-    cout<< "Enter your list : type(fruit , seasoning , snack) , name , price , amount '\n" ;
+    float cost = 0;
+
+    cout<< "Enter your list : type(fruit , seasoning , snack) , name , price , amount \n" 
+    << "if you want to exit \n";
 
     while(1){
 
@@ -92,25 +100,36 @@ void Shop::Remove_Shop() {
         }
 
         cin >> name;
-        cin >> price;
+        // cin >> price;
         cin >> amount;
         
         ptr.set_name(name);
-        ptr.set_price(price);
         ptr.set_amount(amount);
         ptr.set_unit(unit);
         ptr.set_file_name(fname);
 
-        cost += (price * amount) ;
+
+        // cost += (price * amount) ;
+
+        // if(Customer1->Get_balance() - USD(cost) < USD(0)) {
+        //     cout<< "you can't buy more than of these" ;
+        // }
+
+        cost -= (ptr.Remove_Product(discount , &price) * price);
+        ptr.set_price(price);
+        remove_item.push_back(ptr);
 
         if(Customer1->Get_balance() - USD(cost) < USD(0)) {
-            throw invalid_argument("you cant pay more than of your money") ;
-        }
 
-        cost -= (ptr.Remove_Product(discount) * price);
+            ptr.Add_Pruduct() ;
+            remove_item.pop_back() ;
+            cerr<< "you can't buy more than of these" ;
+            break ;
+        }
     }
 
-    Customer1->Set_balance(Customer1->Get_balance() - USD(cost)) ;   
-    
-    // add an print vector 
+    Customer1->Set_balance(Customer1->Get_balance() - USD(cost)) ;
+    this->Set_balance(this->Get_balance() + USD(cost));
+
+    for(Item &temp : remove_item)cout<< temp << '\n' ; 
 }
