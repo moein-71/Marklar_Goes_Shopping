@@ -12,15 +12,18 @@ class Shop : public Organization_Acc {
 
     public :
 
+    Bank * Customer1 ;
+
         Shop(std::string shop = "SHOP" , int AC = 1111 , USD blc = USD(50000)) ;
 
         void Add_Shop() ;
 
         void Remove_Shop() ;
 
+        void showitem() ;
+
     private :
 
-        Bank * Customer1 ;
         const unsigned int discount = 5 ;
 
 } ;

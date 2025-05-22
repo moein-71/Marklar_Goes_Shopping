@@ -11,7 +11,7 @@ class Seasoning: public Item{
 
     public:
 
-        Seasoning(std::string name, int price, int amout);//Constructor
+        Seasoning(std::string name, int price, int amount, int limit_amount);//Constructor
         Seasoning(){};//Default Constructor
 };
 

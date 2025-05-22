@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Seasoning::Seasoning(string name, int price, int amout):Item(name, price, amout, "g"){};
+Seasoning::Seasoning(string name, int price, int amount, int limit_amount):Item(name, price, amount, "g" , limit_amount){};
 
 
 
@@ -19,6 +19,8 @@ ____________________
 
     output << "    " << myself.get_name()
     << "       (" << myself.get_unit() << ')' << myself.get_price() << '\n';    
+
+    return output ;
 }
 
 istream& operator>>(std::istream& input, Seasoning& myself){
@@ -33,4 +35,6 @@ istream& operator>>(std::istream& input, Seasoning& myself){
     myself.set_unit(unit);
     myself.set_price(price);
     myself.set_amount(amount); 
+
+    return input ;
 }

@@ -11,7 +11,7 @@ class Snack: public Item{
 
     public:
 
-        Snack(std::string name, int price, int amout);//Constructor
+        Snack(std::string name, int price, int amount, int limit_amount);//Constructor
         Snack(){};//Default Constructor
 };
 

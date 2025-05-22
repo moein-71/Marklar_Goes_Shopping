@@ -1,8 +1,8 @@
 #include "item.hpp"
 using namespace std;
 
-Item::Item(std::string name, int price, int amount, string unit): name(name), price(price), 
-amount(amount), unit(unit) {};
+Item::Item(std::string name, int price, int amount, string unit, int limit_amount): name(name), price(price), 
+amount(amount), unit(unit), limit_amount(limit_amount) {};
 
 
 
@@ -15,6 +15,7 @@ int Item::get_amount()const{return amount;}
 
 string Item::get_unit()const{return unit;}
 
+int Item::get_limit_amount()const {return limit_amount;}
 
 
 
@@ -26,6 +27,8 @@ void Item::set_amount(int amount){this -> amount = amount;}
 
 void Item::set_unit(string unit){this -> unit = unit;}
 
+void Item::set_limit_amount(int limit_amount) {this -> limit_amount = limit_amount;}
+
 void Item::set_file_name(string file_name){this -> file_name = file_name;}
 
 
@@ -34,7 +37,7 @@ void Item::set_file_name(string file_name){this -> file_name = file_name;}
 void Item::Add_Pruduct()const{
 
     string add_name, unit, fname = this -> file_name;
-    int price, amount;
+    int price, amount , limit_amount ;
 
     bool Hozoor = false;
 
@@ -42,27 +45,37 @@ void Item::Add_Pruduct()const{
     ofstream temp("temp.txt" , ios::out);
 
     if(!add || !temp){
-
+        add.close();
+        temp.close();
+        remove("temp.txt") ;
         throw runtime_error("There is a problem. I can't open file.\n");
     }
 
-    while(add >> add_name >> price >> amount >> unit){
+    while(add >> add_name >> price >> amount >> unit >> limit_amount){
 
         if(this -> name == add_name && this -> unit == unit) {
 
             amount += this -> amount; 
+
+            if(amount > limit_amount) {
+                add.close();
+                temp.close();
+                remove("temp.txt") ;
+                throw invalid_argument("Your shop is fully of this item") ;
+            }
+
             price = this -> price; 
             Hozoor = true;
         }
 
-        temp << name << setw(4) << price << setw(4)
-        << amount << setw(4) << unit << '\n';
+        temp << add_name << setw(4) << price << setw(4)
+        << amount << setw(4) << unit << setw(4) << limit_amount << '\n';
     }
 
     if(!Hozoor){
 
         temp << this -> name << setw(4) << this -> price << setw(4)
-        << this -> amount << setw(4) << this -> unit << '\n';
+        << this -> amount << setw(4) << this -> unit << setw(4) << this -> limit_amount << '\n';
     }
 
     add.close();
@@ -74,10 +87,10 @@ void Item::Add_Pruduct()const{
     // Print();
 }
 
-int Item::Remove_Product(int dis){
+int Item::Remove_Product(int dis , int *item_price){
 
     string remove_name, unit, fname = this -> file_name;
-    int price, amount;
+    int price, amount, limit_amount;
 
     int amount_dis = (this->amount / dis) ;
     
@@ -88,29 +101,35 @@ int Item::Remove_Product(int dis){
 
         rmve.close();
         temp.close();
-        
         remove("temp.txt");
-
         throw runtime_error("There is a problem. I can't open file.\n");
     }
 
-    while(rmve >> remove_name >> price >> amount >> unit){
+    while(rmve >> remove_name >> price >> amount >> unit >> limit_amount){
 
         if(remove_name != name){
 
             temp << remove_name << setw(4) << price << setw(4) 
-            << amount << setw(4) << unit << '\n';
+            << amount << setw(4) << unit << setw(4) << limit_amount << '\n';
         }
         else {
+
             if((amount - this->amount) > 0) {
 
+                *item_price = price ;
+
                 if(amount - amount_dis < 0) {
-                    amount_dis = amount_dis - amount ;
+                    amount_dis -= amount ;
+                    amount = 0 ;
                     continue;
+                }
+                else{
+                    amount -= amount_dis ;
+                    amount_dis = 0 ;
                 }
 
                 temp << name << setw(4) << price << setw(4) 
-                << (amount - this->amount) << setw(4) << unit << '\n';
+                << (amount - this->amount) << setw(4) << unit << setw(4) << limit_amount << '\n';
             }
             else {
                 rmve.close();

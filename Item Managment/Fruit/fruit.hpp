@@ -11,7 +11,7 @@ class Fruit: public Item{
 
     public:
 
-        Fruit(std::string name, int price, int amout);//Constructor
+        Fruit(std::string name, int price, int amount , int limit_amount);//Constructor
         Fruit(){};//Default Constructor
 };
 

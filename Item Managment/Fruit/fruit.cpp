@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Fruit::Fruit(string name, int price, int amout):Item(name, price, amout, "kg"){};
+Fruit::Fruit(string name, int price, int amount, int limit_amount):Item(name, price, amount, "kg" , limit_amount){};
 
 
 
@@ -18,7 +18,9 @@ ____________________
 )";
 
     output << "    " << myself.get_name()
-    << "       (" << myself.get_unit() << ')' << myself.get_price() << '\n';    
+    << "       (" << myself.get_unit() << ')' << myself.get_price() << '\n';  
+    
+    return output ;
 }
 
 istream& operator>>(std::istream& input, Fruit& myself){
@@ -33,4 +35,6 @@ istream& operator>>(std::istream& input, Fruit& myself){
     myself.set_unit(unit);
     myself.set_price(price);
     myself.set_amount(amount); 
+
+    return input ;
 }
