@@ -7,12 +7,13 @@
 #include <cstdio>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 
 class Item{
 
-    friend ostream& operator<<(ostream& , Item&);
-    friend istream& operator>>(istream& , Item&);
+    friend std::ostream& operator<<(std::ostream& , Item&);
+    friend std::istream& operator>>(std::istream& , Item&);
 
     public:
 

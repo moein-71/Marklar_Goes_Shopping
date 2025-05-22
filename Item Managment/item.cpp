@@ -12,13 +12,17 @@ istream& operator>>(istream& input, Item& myself){
 
     input >> myself.name >> myself.price
     >> myself.amount >> myself.unit;
+
+    return input ;
 }
 
 ostream& operator<<(ostream& output, Item& myself){
 
-   output << "name: " << myself.name << '\n' << "price: " << myself.price << '\n'
-   << "amount: " << myself.amount << '\n'<< myself.unit << '\n'
+   output << "name: " << myself.name << " || " << "price: " << myself.price << " || "
+   << "amount: " << myself.amount << " || " << myself.unit << '\n'
    << "_____________________________________________________\n";
+
+   return output ;
 }
 
 
@@ -102,7 +106,7 @@ void Item::Add_Pruduct()const{
     remove(fname.c_str());
     rename("temp.txt", fname.c_str());
 
-    Print();
+    // Print();
 }
 
 int Item::Remove_Product(int dis , int *item_price){
@@ -132,22 +136,24 @@ int Item::Remove_Product(int dis , int *item_price){
         }
         else {
 
-            if((amount - this->amount) > 0) {
+            amount -= this->amount ;
+
+             if(amount >= 0) {
 
                 *item_price = price ;
 
-                if(amount - amount_dis < 0) {
+                if(amount > amount_dis) {
+                    amount -= amount_dis ;
+                    amount_dis = 0 ;
+                }
+                else{
                     amount_dis -= amount ;
                     amount = 0 ;
                     continue;
                 }
-                else{
-                    amount -= amount_dis ;
-                    amount_dis = 0 ;
-                }
 
                 temp << name << setw(4) << price << setw(4) 
-                << (amount - this->amount) << setw(4) << unit << setw(4) << limit_amount << '\n';
+                << amount << setw(4) << unit << setw(4) << limit_amount << '\n';
             }
             else {
                 rmve.close();

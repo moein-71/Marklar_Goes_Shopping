@@ -8,18 +8,21 @@ Shop::Shop(std::string shop , int AC , USD blc) : Organization_Acc(shop , AC , b
     Customer1 = new Personal_Acc("mehrab" , 1385 , USD(2000)) ;
 }
 
+Shop::~Shop() {
+
+    delete Customer1 ;
+
+    cout<< "See You Later" << '\n' ;
+}
+
 
 void Shop::Add_Shop(){
 
     int price, amount , limit_amount;
     string choose , fname, name, unit;
-    Item  ptr;
+    Item  *ptr = nullptr ;
 
-    vector<Item> add_item ; 
-
-    vector<Item> add_item ; 
-
-    vector<Item> add_item; 
+    vector<Item *> add_item ; 
 
     float cost = 0;
 
@@ -30,13 +33,20 @@ void Shop::Add_Shop(){
 
         cin >> choose;
 
-        if(choose == "fruit"){fname = "fruit.txt"; unit = "kg" ;}
+        if(choose == "exit")break ;
 
-        else if(choose == "seasoning"){fname = "seasoning.txt"; unit = "g";}
+        cin >> name;
+        cin >> price;
+        cin >> amount;
+        cin >> limit_amount ; 
 
-        else if(choose == "snack"){fname = "snack.txt"; unit = "package";}
+        if(choose == "fruit"){fname = "fruit.txt"; ptr = new Fruit(name , price , amount , limit_amount);}
 
-        else if(choose == "exit")break;
+        else if(choose == "seasoning"){fname = "seasoning.txt"; ptr = new Seasoning(name , price , amount , limit_amount);}
+
+        else if(choose == "snack"){fname = "snack.txt"; ptr = new Snack(name , price , amount , limit_amount);}
+
+        else if(name == "exit")break;
 
         else{
             
@@ -44,18 +54,8 @@ void Shop::Add_Shop(){
 
             continue;
         }
-
-        cin >> name;
-        cin >> price;
-        cin >> amount;
-        cin >> limit_amount ; 
         
-        ptr.set_name(name);
-        ptr.set_price(price);
-        ptr.set_amount(amount);
-        ptr.set_unit(unit);
-        ptr.set_limit_amount(limit_amount) ;
-        ptr.set_file_name(fname);
+        ptr->set_file_name(fname);
 
         cost += (price * amount);
 
@@ -64,7 +64,7 @@ void Shop::Add_Shop(){
             break ;
         }
 
-        ptr.Add_Pruduct();
+        ptr->Add_Pruduct();
 
         add_item.push_back(ptr) ;
 
@@ -72,20 +72,21 @@ void Shop::Add_Shop(){
 
     this->Set_balance(this->Get_balance() - USD(cost));
 
-    // for(const Item &s : add_item)cout<< s << '\n' ; 
+    if(!add_item.empty()){     
+        for( Item *s : add_item){
+            cout<< *s << '\n' ; 
+            delete s ;
+        }
+    }
 }
 
 void Shop::Remove_Shop() {
 
     int price, amount ;
     string choose , fname, name, unit ;
-    Item  ptr;
+    Item  *ptr;
 
-    vector<Item> remove_item ; 
-
-    vector<Item> remove_item ; 
-
-    vector<Item> remove_item; 
+    vector<Item*> remove_item ; 
 
     float cost = 0;
 
@@ -96,13 +97,19 @@ void Shop::Remove_Shop() {
 
         cin >> choose;
 
-        if(choose == "fruit"){fname = "fruit.txt"; unit = "kg";}
+        if(choose == "exit")break ;
 
-        else if(choose == "seasoning"){fname = "seasoning.txt"; unit = "g";}
+        cin >> name;
 
-        else if(choose == "snack"){fname = "snack.txt"; unit = "package";}
+        if(name == "exit")break;
 
-        else if(choose == "exit")break;
+        cin >> amount;
+
+        if(choose == "fruit"){fname = "fruit.txt"; ptr = new Fruit(name , price , amount , 0);}
+
+        else if(choose == "seasoning"){fname = "seasoning.txt"; ptr = new Seasoning(name , price , amount , 0);}
+
+        else if(choose == "snack"){fname = "snack.txt"; ptr = new Snack(name , price , amount , 0);}
 
         else{
             
@@ -111,74 +118,63 @@ void Shop::Remove_Shop() {
             continue;
         }
 
-        cin >> name;
-        // cin >> price;
-        // cin >> price;
-        cin >> amount;
-        
-        ptr.set_name(name);
-        ptr.set_amount(amount);
-        ptr.set_unit(unit);
-        ptr.set_file_name(fname);
+        ptr->set_file_name(fname);
 
+        int dis_amount = ptr->Remove_Product(discount , &price) ;
 
-        // if(Customer1->Get_balance() - USD(cost) < USD(0)) {
-        //     cout<< "you can't buy more than of these" ;
-        // }
-
-        cost -= (ptr.Remove_Product(discount , &price) * price) ;
-
-        ptr.set_price(price) ;
+        ptr->set_price(price) ;
 
         cost += (price * amount) ;
-
-        remove_item.push_back(ptr) ;
+        cost -= (dis_amount * price) ;
 
         if(Customer1->Get_balance() - USD(cost) < USD(0)) {
-
-            ptr.Add_Pruduct() ;
-            remove_item.pop_back() ;
+            
+            ptr->Add_Pruduct() ;
             cerr<< "you can't buy more than of these" ;
 
             break ;
         }
+        remove_item.push_back(ptr) ;
     }
-
-    cout<< " fasdf" << cost << '\n' ;
 
     Customer1->Set_balance((Customer1->Get_balance() - USD(cost))) ;
 
-    cout<< Customer1->Get_balance() ;
+    this->Set_balance((this->Get_balance() + USD(cost))) ;
 
-    // for(const Item &s : remove_item)cout<< s << '\n' ; 
+    if(!remove_item.empty()){
+        for(Item *s : remove_item) {
+        cout<< *s << '\n' ; 
+        delete s ;
+        }
+    }
 }
 
-void Shop::showitem() {
+// void Shop::showitem() {
 
-    int price, amount , limit_amount;
-    string choose , fname, name, unit;
+//     int price, amount , limit_amount;
+//     string choose , fname, name, unit;
 
-    ifstream a ("fruit.txt") ;
+//     ifstream a ("fruit.txt") ;
 
-    while(a >> name >> price >> amount >> unit >> limit_amount) {
-        cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-    }
+//     while(a >> name >> price >> amount >> unit >> limit_amount) {
+//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
+//     }
 
-    a.open("seasoning.txt") ;
+//     a.open("seasoning.txt") ;
 
 
-    cout<< '\n' ;
+//     cout<< '\n' ;
 
-    while(a >> name >> price >> amount >> unit >> limit_amount) {
-        cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-    }
+//     while(a >> name >> price >> amount >> unit >> limit_amount) {
+//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
+//     }
 
-    a.open("snack.txt") ;
+//     a.open("snack.txt") ;
 
-    while(a >> name >> price >> amount >> unit >> limit_amount) {
-        cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-    }
+//     while(a >> name >> price >> amount >> unit >> limit_amount) {
+//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
+//     }
 
-    cout<< '\n' ;
+//     cout<< '\n' ;
 
-}
+// }
