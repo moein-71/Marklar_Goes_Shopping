@@ -12,20 +12,20 @@ class Shop : public Organization_Acc {
 
     public :
 
-    Bank * Customer1;
-//////////////////////////////////
-
         Shop(std::string shop = "SHOP" , int AC = 1111 , USD blc = USD(50000));//Constructor
+
+        USD Get_Person_Balance() const ;
 
         void Add_Shop();//manage shopping (add_list, get_money) 
         void Remove_Shop();//remove list and get money from user and add money to the shop
 
-        // void showitem() ;
+        void showitem() ;
 
         ~Shop() ;
 
     private :
 
+        Bank * Customer1;
 
         const unsigned int discount = 5;
 } ;

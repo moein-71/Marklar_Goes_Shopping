@@ -15,6 +15,10 @@ Shop::~Shop() {
     cout<< "See You Later" << '\n' ;
 }
 
+USD Shop::Get_Person_Balance() const {
+    return Customer1->Get_balance() ;
+}
+
 
 void Shop::Add_Shop(){
 
@@ -39,6 +43,13 @@ void Shop::Add_Shop(){
         cin >> price;
         cin >> amount;
         cin >> limit_amount ; 
+
+        if(limit_amount <= 0 || price <= 0 || amount <= 0){
+
+            cerr << "Please enter posetive number.\nSo enter your list : type(fruit , seasoning , snack) , name , price , amount , limit_amount \n" 
+            << "if you want to exit \n";
+            continue;
+        }
 
         if(choose == "fruit"){fname = "fruit.txt"; ptr = new Fruit(name , price , amount , limit_amount);}
 
@@ -137,9 +148,28 @@ void Shop::Remove_Shop() {
         remove_item.push_back(ptr) ;
     }
 
-    Customer1->Set_balance((Customer1->Get_balance() - USD(cost))) ;
+    int choose_currency ;
+    cout<< "How you want pay (1.USD , 2.IRR , 3.EUR) : " ;
+    cin>> choose_currency ;
 
-    this->Set_balance((this->Get_balance() + USD(cost))) ;
+    if(choose_currency == 1) {
+        Customer1->Set_balance((Customer1->Get_balance() - USD(cost))) ;
+
+        this->Set_balance((this->Get_balance() + USD(cost))) ;
+    }
+    else if(choose_currency == 2) {
+        Customer1->Set_balance(static_cast<USD>(static_cast<IRR>(Customer1->Get_balance()) - static_cast<IRR>(USD(cost)))) ;
+
+        this->Set_balance(static_cast<USD>(static_cast<IRR>(this->Get_balance()) + static_cast<IRR>(USD(cost)))) ;
+
+    }
+    else if(choose_currency == 3) {
+        Customer1->Set_balance(static_cast<USD>(static_cast<EUR>(Customer1->Get_balance()) - static_cast<EUR>(USD(cost)))) ;
+
+        this->Set_balance(static_cast<USD>(static_cast<EUR>(this->Get_balance()) + static_cast<EUR>(USD(cost)))) ;
+    
+    }
+   
 
     if(!remove_item.empty()){
         for(Item *s : remove_item) {
@@ -149,32 +179,38 @@ void Shop::Remove_Shop() {
     }
 }
 
-// void Shop::showitem() {
+void Shop::showitem() {
 
-//     int price, amount , limit_amount;
-//     string choose , fname, name, unit;
+    int price, amount , limit_amount;
+    string choose , fname, name, unit;
 
-//     ifstream a ("fruit.txt") ;
+    ifstream a ("fruit.txt") ;
 
-//     while(a >> name >> price >> amount >> unit >> limit_amount) {
-//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-//     }
+    while(a >> name >> price >> amount >> unit >> limit_amount) {
+        cout << "name: " << name << " || " << "price: " << price << " || "
+        << "amount: " << amount << " || " << unit << '\n'
+        << "_____________________________________________________\n";    
+    }
 
-//     a.open("seasoning.txt") ;
+    a.open("seasoning.txt") ;
 
 
-//     cout<< '\n' ;
+    cout<< '\n' ;
 
-//     while(a >> name >> price >> amount >> unit >> limit_amount) {
-//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-//     }
+    while(a >> name >> price >> amount >> unit >> limit_amount) {
+        cout << "name: " << name << " || " << "price: " << price << " || "
+        << "amount: " << amount << " || " << unit << '\n'
+        << "_____________________________________________________\n";
+    }
 
-//     a.open("snack.txt") ;
+    a.open("snack.txt") ;
 
-//     while(a >> name >> price >> amount >> unit >> limit_amount) {
-//         cout<< name << " " << price << " " << amount << " " << unit << " " << limit_amount << '\n' ;
-//     }
+    while(a >> name >> price >> amount >> unit >> limit_amount) {
+        cout << "name: " << name << " || " << "price: " << price << " || "
+        << "amount: " << amount << " || " << unit << '\n'
+        << "_____________________________________________________\n";    
+    }
 
-//     cout<< '\n' ;
+    cout<< '\n' ;
 
-// }
+}

@@ -12,6 +12,22 @@ class IRR : public Currency {
     public :
 
         IRR(float amount = 0) ;
+        explicit IRR(const USD & change) ;
+
+        const IRR & operator=(const IRR &other) ;
+
+        const IRR & operator+=(const IRR & other) ;
+        const IRR & operator-=(const IRR & other) ;
+
+        IRR operator+(const IRR & other) ;
+        IRR operator-(const IRR & other) ;
+        IRR operator*(const IRR & other) ;
+        IRR operator/(const IRR & other) ;
+
+        bool operator==(const IRR & other) ;
+        bool operator!=(const IRR & other) ;
+        bool operator<(const IRR & other) ;
+        bool operator>(const IRR & other) ;
 
     private :
 

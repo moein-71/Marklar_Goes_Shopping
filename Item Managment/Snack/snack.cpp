@@ -2,7 +2,9 @@
 
 using namespace std;
 
-Snack::Snack(string name, int price, int amount, int limit_amount):Item(name, price, amount, "package" , limit_amount){};
+Snack::Snack(string name, int price, int amount, int limit_amount):Item(name, price, amount, "package" , limit_amount){
+    
+};
 
 
 

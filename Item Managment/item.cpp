@@ -63,7 +63,7 @@ void Item::Add_Pruduct()const{
 
     bool Hozoor = false;
 
-    ifstream add(fname , ios::in);
+    ifstream add(fname , ios::in | ios::app);
     ofstream temp("temp.txt" , ios::out);
 
     if(!add || !temp){
@@ -116,7 +116,7 @@ int Item::Remove_Product(int dis , int *item_price){
 
     int amount_dis = (this->amount / dis) ;
     
-    ifstream rmve(fname, ios::in);
+    ifstream rmve(fname, ios::in | ios::app);
     ofstream temp("temp.txt" , ios::out);
 
     if(!rmve || !temp){
