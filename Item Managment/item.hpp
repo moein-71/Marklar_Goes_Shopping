@@ -11,6 +11,9 @@
 
 class Item{
 
+    friend ostream& operator<<(ostream& , Item&);
+    friend istream& operator>>(istream& , Item&);
+
     public:
 
         Item(std::string name, int price, int amount, std::string unit, int limit_amount);//Constructor

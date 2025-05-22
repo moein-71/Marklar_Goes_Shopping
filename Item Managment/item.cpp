@@ -7,6 +7,24 @@ amount(amount), unit(unit), limit_amount(limit_amount) {};
 
 
 
+
+istream& operator>>(istream& input, Item& myself){
+
+    input >> myself.name >> myself.price
+    >> myself.amount >> myself.unit;
+}
+
+ostream& operator<<(ostream& output, Item& myself){
+
+   output << "name: " << myself.name << '\n' << "price: " << myself.price << '\n'
+   << "amount: " << myself.amount << '\n'<< myself.unit << '\n'
+   << "_____________________________________________________\n";
+}
+
+
+
+
+
 string Item::get_name()const{return name;}
 
 int Item::get_price()const{return price;}
@@ -84,7 +102,7 @@ void Item::Add_Pruduct()const{
     remove(fname.c_str());
     rename("temp.txt", fname.c_str());
 
-    // Print();
+    Print();
 }
 
 int Item::Remove_Product(int dis , int *item_price){

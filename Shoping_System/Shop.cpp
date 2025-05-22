@@ -1,4 +1,5 @@
 #include "Shop.hpp"
+#include "../Item Managment/item.hpp"
 #include <vector>
 
 using namespace std ;
@@ -8,7 +9,7 @@ Shop::Shop(std::string shop , int AC , USD blc) : Organization_Acc(shop , AC , b
 }
 
 
-void Shop::Add_Shop() {
+void Shop::Add_Shop(){
 
     int price, amount , limit_amount;
     string choose , fname, name, unit;
@@ -16,7 +17,11 @@ void Shop::Add_Shop() {
 
     vector<Item> add_item ; 
 
-    float cost = 0 ;
+    vector<Item> add_item ; 
+
+    vector<Item> add_item; 
+
+    float cost = 0;
 
     cout<< "Enter your list : type(fruit , seasoning , snack) , name , price , amount , limit_amount \n" 
     << "if you want to exit \n";
@@ -52,7 +57,7 @@ void Shop::Add_Shop() {
         ptr.set_limit_amount(limit_amount) ;
         ptr.set_file_name(fname);
 
-        cost += (price * amount) ;
+        cost += (price * amount);
 
         if(this->Get_balance() - USD(cost) < USD(0)) {
             cerr<< "you can't buy more than of these" ;
@@ -65,7 +70,7 @@ void Shop::Add_Shop() {
 
     }
 
-    this->Set_balance(this->Get_balance() - USD(cost)) ;
+    this->Set_balance(this->Get_balance() - USD(cost));
 
     // for(const Item &s : add_item)cout<< s << '\n' ; 
 }
@@ -78,7 +83,11 @@ void Shop::Remove_Shop() {
 
     vector<Item> remove_item ; 
 
-    float cost = 0 ;
+    vector<Item> remove_item ; 
+
+    vector<Item> remove_item; 
+
+    float cost = 0;
 
     cout<< "Enter your list : type(fruit , seasoning , snack) , name , amount \n" 
     << "if you want to exit \n";
@@ -103,6 +112,7 @@ void Shop::Remove_Shop() {
         }
 
         cin >> name;
+        // cin >> price;
         // cin >> price;
         cin >> amount;
         
